@@ -1,0 +1,31 @@
+{
+  "firestore": {
+    "rules": "config/firestore.rules",
+    "indexes": "config/firestore.indexes.json"
+  },
+  "functions": {
+    "predeploy": ["yarn --cwd functions run lint", "yarn --cwd functions run build"]
+  },
+  "hosting": {
+    "public": "ui/build",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "predeploy": "yarn --cwd ui build",
+    "rewrites": [
+      {
+        "source": "/graphql{,/**}",
+        "function": "graphql"
+      },
+      {
+        "source": "/api{,/**}",
+        "function": "api"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "storage": {
+    "rules": "config/storage.rules"
+  }
+}

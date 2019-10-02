@@ -1,0 +1,33 @@
+overwrite: true
+hooks:
+  afterAllFileWrite:
+    - prettier --write src/graphql.d.ts
+    - tslint --fix ./src/graphql.d.ts
+schema: "./src/graphql/schema.gql"
+config:
+  immutableTypes: true
+  enumsAsTypes: true
+  noSchemaStitching: true
+  scalars:
+    Any: any
+    # Date in milliseconds
+    FirebaseTimestamp: number
+generates:
+  src/graphql.d.ts:
+    plugins:
+      - add:
+          placement: prepend
+          # the comment here is a bit of a hack. graphql-codegen sorts imports
+          # alphabetically, but it prioritises comments over imports.
+          # We want the imports to be inside the namespace, hence the comment.
+          # https://git.io/Jenfn
+          content: "// @generated\n\ndeclare namespace GQL {"
+      - add:
+          placement: append
+          content: "}"
+      - "typescript"
+      - "typescript-resolvers"
+      - "typescript-operations"
+  # ./src/codegen/schema.json:
+  #   plugins:
+  #     - "introspection"

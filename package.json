@@ -1,0 +1,24 @@
+{
+  "name": "firestarter",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "workspaces": [
+    "functions",
+    "scripts",
+    "ui"
+  ],
+  "scripts": {
+    "deploy": "firebase deploy",
+    "build-ui": "yarn --cwd ui build",
+    "build-functions": "yarn --cwd functions build"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "printWidth": 120
+  },
+  "devDependencies": {
+    "firebase-tools": "^7.4.0"
+  }
+}

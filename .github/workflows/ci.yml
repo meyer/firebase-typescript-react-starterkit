@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push: {}
+  pull_request: {}
+#   schedule:
+#     # run every day at midnight UTC
+#     - cron: "0 0 * * *"
+
+jobs:
+  build:
+    name: Lint and run webpack
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout meyer.town
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Use Node 8
+        uses: actions/setup-node@v1
+        with:
+          node-version: 8.x
+      - name: Install dependencies
+        run: yarn
+      - name: Run tslint
+        run: yarn --cwd functions run lint
+      - name: Run webpack in functions folder
+        run: yarn --cwd functions run build
+      - name: Run webpack in ui folder
+        run: yarn --cwd ui run build

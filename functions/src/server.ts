@@ -12,7 +12,7 @@ const app = express();
 const uiPath = path.resolve(__dirname, '..', '..', 'ui', 'build');
 const apolloServer = new ApolloServer(apolloConfig);
 
-app.get('/api', apiRouter);
+app.all(['/api', '/api/*'], apiRouter);
 app.use(express.static(uiPath));
 app.use(apolloServer.getMiddleware());
 app.listen(process.env.PORT || 3000);

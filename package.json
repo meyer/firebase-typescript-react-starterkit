@@ -1,5 +1,5 @@
 {
-  "name": "firestarter",
+  "name": "typescript-react-example",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
@@ -11,7 +11,9 @@
   "scripts": {
     "deploy": "firebase deploy",
     "build-ui": "yarn --cwd ui build",
-    "build-functions": "yarn --cwd functions build"
+    "build-functions": "yarn --cwd functions build",
+    "start-ui": "yarn --cwd ui start",
+    "start-functions": "yarn --cwd functions start"
   },
   "prettier": {
     "singleQuote": true,

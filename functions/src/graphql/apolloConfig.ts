@@ -10,12 +10,10 @@ const resolvers: GQL.Resolvers = {
   Mutation: {
     goodbye: (_, args) => `Goodbye, ${args.name}`,
   },
-
   Any: AnyScalarType,
 };
 
 export const apolloConfig: Config = {
   typeDefs,
-  // our types are better :D
   resolvers: resolvers as any,
 };

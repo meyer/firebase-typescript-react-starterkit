@@ -5,19 +5,8 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const { StartServerPlugin } = require('@meyer/start-server-webpack-plugin');
-const MemoryFS = require('memory-fs');
 
 require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
-
-class MemoryFSPlugin {
-  constructor() {
-    this.outputFS = new MemoryFS();
-  }
-
-  apply(compiler) {
-    compiler.outputFileSystem = this.outputFS;
-  }
-}
 
 /** @type {(env: { dev?: boolean }, options: { hot?: boolean }) => Promise<webpack.Configuration>} */
 module.exports = async (env = {}, options = {}) => {
@@ -35,9 +24,7 @@ module.exports = async (env = {}, options = {}) => {
       plugins: [new TsconfigPathsPlugin()],
     },
     context: path.resolve(__dirname),
-    // sourcemaps are broken right now
-    // see: https://github.com/webpack-contrib/terser-webpack-plugin/issues/100
-    devtool: false, // 'source-map',
+    devtool: 'source-map',
     entry: {
       index: require.resolve('./src/index.ts'),
       server: require.resolve('./src/server.ts'),
@@ -63,7 +50,6 @@ module.exports = async (env = {}, options = {}) => {
       new StartServerPlugin({
         entryName: 'server',
       }),
-      // options.hot && new MemoryFSPlugin(),
       new webpack.EnvironmentPlugin({
         NODE_ENV,
         APP_CLIENT_ID: 'err',

@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const JsxstylePlugin = require('jsxstyle-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
 
@@ -22,11 +23,10 @@ module.exports = (env = {}, options = {}) => {
     resolve: {
       mainFields: ['browser', 'main', 'module'],
       extensions: ['.mjs', '.js', '.json', '.ts', '.tsx'],
+      plugins: [new TsconfigPathsPlugin()],
     },
     context: path.resolve(__dirname),
-    // sourcemaps are broken right now
-    // see: https://github.com/webpack-contrib/terser-webpack-plugin/issues/100
-    devtool: false, // 'source-map',
+    devtool: 'source-map',
     entry: {
       main: require.resolve('./src/entrypoint.tsx'),
     },
@@ -54,13 +54,13 @@ module.exports = (env = {}, options = {}) => {
         TEAM_ID: 'err',
       }),
       new HtmlWebpackPlugin({
-        title: 'firestarter',
+        title: 'firebase-typescript-react-starterkit',
         inject: false,
         filename: 'index.html',
         chunks: ['main'],
         template: path.resolve(__dirname, 'src', 'template.ejs'),
       }),
-      new CopyPlugin(['static']),
+      new CopyPlugin(['static'], { ignore: ['**/*.sketch'] }),
     ],
     module: {
       rules: [

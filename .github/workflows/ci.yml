@@ -23,7 +23,7 @@ jobs:
           node-version: 8.x
       - name: Install dependencies
         run: yarn
-      - name: Run tslint
+      - name: Run tslint in the functions folder
         run: yarn --cwd functions run lint
       - name: Run webpack in functions folder
         run: yarn --cwd functions run build

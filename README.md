@@ -18,6 +18,13 @@ This is a bundled up versionf of my standard Firebase web app setup.
 You can now run the cloud function server with `yarn start-functions`.
 In a new terminal, run `yarn start-ui` to run the frontend portion of your application.
 
+## Continuous deployment
+
+This template includes support for continuous deployment via a GitHub action. Some initial setup is required:
+
+1. Generate a deploy token by running `firebase login:ci` from your project folder. You can read more in the [Firebase docs](https://firebase.google.com/docs/cli/#cli-ci-systems).
+2. Add the generated token to the Secrets section of your GitHub repository and name it `FIREBASE_TOKEN`.
+
 ## Available commands
 
 | Command                | Description                                 |

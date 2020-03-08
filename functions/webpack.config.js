@@ -50,15 +50,7 @@ module.exports = async (env = {}, options = {}) => {
       new StartServerPlugin({
         entryName: 'server',
       }),
-      new webpack.EnvironmentPlugin({
-        NODE_ENV,
-        APP_CLIENT_ID: 'err',
-        WEB_CLIENT_ID: 'err',
-        KEY_ID: 'err',
-        REDIRECT_URI: 'err',
-        SCOPE: 'err',
-        TEAM_ID: 'err',
-      }),
+      new webpack.EnvironmentPlugin({ NODE_ENV }),
       new webpack.DefinePlugin({
         BUILD_TIMESTAMP: JSON.stringify(new Date().toLocaleString()),
         SF_TIMEZONE: JSON.stringify('America/Los_Angeles'),

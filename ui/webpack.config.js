@@ -44,15 +44,7 @@ module.exports = (env = {}, options = {}) => {
       new MiniCssExtractPlugin({
         filename: '[name].css',
       }),
-      new webpack.EnvironmentPlugin({
-        NODE_ENV,
-        APP_CLIENT_ID: 'err',
-        WEB_CLIENT_ID: 'err',
-        KEY_ID: 'err',
-        REDIRECT_URI: 'err',
-        SCOPE: 'err',
-        TEAM_ID: 'err',
-      }),
+      new webpack.EnvironmentPlugin({ NODE_ENV }),
       new HtmlWebpackPlugin({
         title: 'firebase-typescript-react-starterkit',
         inject: false,

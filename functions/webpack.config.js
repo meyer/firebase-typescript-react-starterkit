@@ -8,9 +8,9 @@ const { StartServerPlugin } = require('@meyer/start-server-webpack-plugin');
 
 require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
 
-/** @type {(env: { dev?: boolean }, options: { hot?: boolean }) => Promise<webpack.Configuration>} */
-module.exports = async (env = {}, options = {}) => {
-  const DEV_MODE = true; //env.dev || process.env.npm_lifecycle_event === 'start';
+/** @type {() => Promise<webpack.Configuration>} */
+module.exports = async () => {
+  const DEV_MODE = true;
   const NODE_ENV = DEV_MODE ? 'development' : 'production';
 
   return {
@@ -53,7 +53,6 @@ module.exports = async (env = {}, options = {}) => {
       new webpack.EnvironmentPlugin({ NODE_ENV }),
       new webpack.DefinePlugin({
         BUILD_TIMESTAMP: JSON.stringify(new Date().toLocaleString()),
-        SF_TIMEZONE: JSON.stringify('America/Los_Angeles'),
       }),
     ].filter(Boolean),
     module: {

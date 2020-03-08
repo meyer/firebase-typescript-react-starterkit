@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "rimraf build/* && webpack --progress",
-    "start": "webpack-dev-server --progress",
+    "start": "webpack-dev-server --progress --port=3003",
     "generate-favicon": "convert static/favicon-16.png static/favicon-32.png static/favicon.ico"
   },
   "browserslist": [

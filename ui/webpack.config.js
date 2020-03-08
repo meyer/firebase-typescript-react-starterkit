@@ -13,9 +13,14 @@ require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
 const DEV_MODE = process.env.npm_lifecycle_event === 'start';
 const NODE_ENV = DEV_MODE ? 'development' : 'production';
 
-module.exports = (env = {}, options = {}) => {
-  const wdsPort = options.port || 3003;
+/** @type {(env: {}, options: { port?: number; hot?: boolean; https?: boolean }) => Promise<webpack.Configuration>} */
+module.exports = async (env = {}, options = {}) => {
+  const wdsPort = options.port;
   const isWDS = process.env.WEBPACK_DEV_SERVER === 'true';
+
+  if (isWDS && wdsPort == null) {
+    throw new Error('The `--port` flag is required when running `webpack-dev-server`');
+  }
 
   /** @type {webpack.Configuration} */
   const reactAppConfig = {
@@ -93,7 +98,7 @@ module.exports = (env = {}, options = {}) => {
         {
           test: /\.css$/,
           use: [
-            MiniCssExtractPlugin.loader, // 'style-loader',
+            MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
               options: { importLoaders: 1 },
@@ -114,10 +119,6 @@ module.exports = (env = {}, options = {}) => {
     const protocol = 'http' + (options.https ? 's' : '');
     const publicPath = `${protocol}://localhost:${wdsPort}/`;
     reactAppConfig.output.publicPath = publicPath;
-
-    if (!process.env.HOME) {
-      throw new Error('process.env.HOME is not set');
-    }
 
     reactAppConfig.devServer = {
       hot: false,
@@ -153,7 +154,7 @@ module.exports = (env = {}, options = {}) => {
       },
       historyApiFallback: true,
       port: wdsPort,
-      allowedHosts: ['localhost', 'showdown.link'],
+      allowedHosts: ['localhost'],
     };
   }
 

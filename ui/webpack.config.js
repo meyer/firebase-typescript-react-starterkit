@@ -31,14 +31,14 @@ module.exports = async (env = {}, options = {}) => {
       plugins: [new TsconfigPathsPlugin()],
     },
     context: path.resolve(__dirname),
-    devtool: 'source-map',
+    devtool: isWDS ? 'source-map' : false,
     entry: {
       main: require.resolve('./src/entrypoint.tsx'),
     },
     output: {
       path: path.resolve(__dirname, 'build'),
       publicPath: '/',
-      filename: '[name].js',
+      filename: isWDS ? '[name].js' : '[name].[contenthash:8].js',
     },
     target: 'web',
     optimization: {
@@ -47,7 +47,7 @@ module.exports = async (env = {}, options = {}) => {
     plugins: [
       new JsxstylePlugin(),
       new MiniCssExtractPlugin({
-        filename: '[name].css',
+        filename: isWDS ? '[name].css' : '[name].[contenthash:8].css',
       }),
       new webpack.EnvironmentPlugin({ NODE_ENV }),
       new HtmlWebpackPlugin({
